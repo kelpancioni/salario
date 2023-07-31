@@ -5,7 +5,7 @@ import com.example.salario.domain.funcionario.dto.FuncionarioDTO;
 import com.example.salario.domain.funcionario.dto.FuncionarioRequestDTO;
 import com.example.salario.domain.funcionario.dto.FuncionarioResponseDTO;
 import com.example.salario.repositories.FuncionarioRepository;
-import jakarta.persistence.EntityExistsException;
+import javax.persistence.EntityExistsException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

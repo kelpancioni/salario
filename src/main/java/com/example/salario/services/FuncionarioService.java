@@ -6,11 +6,11 @@ import com.example.salario.domain.funcionario.dto.FuncionarioResponseDTO;
 import com.example.salario.domain.imposto.dto.ImpostoResponseDTO;
 import com.example.salario.domain.salario.dto.RejusteSalarioResponseDTO;
 import com.example.salario.repositories.FuncionarioRepository;
-import jakarta.persistence.EntityExistsException;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import java.math.RoundingMode;
 import java.math.BigDecimal;
 import java.util.List;
