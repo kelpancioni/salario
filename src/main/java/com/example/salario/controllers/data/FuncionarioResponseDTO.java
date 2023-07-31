@@ -1,4 +1,4 @@
-package com.example.salario.domain.funcionario.dto;
+package com.example.salario.controllers.data;
 
 import com.example.salario.domain.funcionario.Funcionario;
 import lombok.Getter;

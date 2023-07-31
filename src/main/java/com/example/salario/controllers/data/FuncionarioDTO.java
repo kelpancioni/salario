@@ -1,14 +1,11 @@
-package com.example.salario.domain.funcionario.dto;
+package com.example.salario.controllers.data;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-
-
-import org.hibernate.validator.constraints.NotBlank;
 import java.time.LocalDate;
 
 @Getter

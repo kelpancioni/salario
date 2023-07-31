@@ -1,4 +1,4 @@
-package com.example.salario.domain.imposto.dto;
+package com.example.salario.controllers.data;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

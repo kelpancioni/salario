@@ -1,16 +1,12 @@
 package com.example.salario.domain.funcionario;
 
-import com.example.salario.domain.funcionario.dto.FuncionarioDTO;
-
-import lombok.*;
-
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.hibernate.validator.constraints.br.CPF;
+import com.example.salario.controllers.data.FuncionarioDTO;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
 import java.time.LocalDate;
 
 @Table(name = "funcionario")
