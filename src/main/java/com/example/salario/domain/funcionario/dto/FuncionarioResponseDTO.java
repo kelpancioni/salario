@@ -1,19 +1,14 @@
-package com.example.salario.domain.funcionario;
+package com.example.salario.domain.funcionario.dto;
 
+import com.example.salario.domain.funcionario.Funcionario;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDate;
 
 @Getter
 @Setter
-public class FuncionarioResponseDTO {
-    private Long id;
-    private String nome;
-    private String cpf;
-    private LocalDate dataNascimento;
-    private String endereco;
-    private double salario;
+@NoArgsConstructor
+public class FuncionarioResponseDTO extends FuncionarioDTO {
     public FuncionarioResponseDTO(Funcionario funcionario) {
         this.id = funcionario.getId();
         this.nome = funcionario.getNome();

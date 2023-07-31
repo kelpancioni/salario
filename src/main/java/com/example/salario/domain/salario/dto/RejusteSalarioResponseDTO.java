@@ -1,15 +1,15 @@
-package com.example.salario.domain.funcionario;
+package com.example.salario.domain.salario.dto;
 
 import lombok.Getter;
 
 @Getter
-public class FuncionarioRejusteSalarioDTO {
+public class RejusteSalarioResponseDTO {
     private String cpf;
     private double novoSalario;
     private double valorReajuste;
     private String percentualReajuste;
 
-    public FuncionarioRejusteSalarioDTO(String cpf, double novoSalario, double valorReajuste, double percentualReajuste) {
+    public RejusteSalarioResponseDTO(String cpf, double novoSalario, double valorReajuste, double percentualReajuste) {
         this.cpf = cpf;
         this.novoSalario = novoSalario;
         this.valorReajuste = valorReajuste;
