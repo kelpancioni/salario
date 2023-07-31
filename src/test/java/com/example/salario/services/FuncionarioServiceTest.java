@@ -5,6 +5,7 @@ import com.example.salario.domain.funcionario.dto.FuncionarioDTO;
 import com.example.salario.domain.funcionario.dto.FuncionarioRequestDTO;
 import com.example.salario.domain.funcionario.dto.FuncionarioResponseDTO;
 import com.example.salario.repositories.FuncionarioRepository;
+import jakarta.persistence.EntityExistsException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,8 +16,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -58,6 +58,21 @@ public class FuncionarioServiceTest {
         // ASSERT
         assertNotNull(result);
         assertEquals(result.getCpf(),"43618207328");
+        assertEquals(result.getNome(),"Tomás Miguel da Mota");
+        assertEquals(result.getDataNascimento(),LocalDate.parse("1972-05-08"));
+        assertEquals(result.getEndereco(),"Rua Sorocaba");
+        assertEquals(result.getSalario(),1080.0);
+    }
+
+    @Test void criarFuncionario_shouldNotCreateFuncionario_whenCpfExists() {
+        // ARRANGE
+        FuncionarioRequestDTO funcionario = getDefaulFuncionarioRequestDTO();
+
+        when(repositoryMock.findFuncionarioByCpf(any())).thenReturn(Funcionario.fromRequestDTO(funcionario));
+
+        // ACTION
+        // ASSERT
+        assertThrows(EntityExistsException.class, () -> funcionarioService.criarFuncionario(funcionario));
     }
 
     private static FuncionarioRequestDTO getDefaulFuncionarioRequestDTO() {
