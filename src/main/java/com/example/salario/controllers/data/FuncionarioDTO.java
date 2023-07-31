@@ -11,8 +11,6 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class FuncionarioDTO {
-    protected Long id;
-
     @NotBlank(message = "Nome não pode ser vazio")
     protected String nome;
 

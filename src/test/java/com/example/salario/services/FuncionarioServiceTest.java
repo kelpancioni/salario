@@ -1,9 +1,9 @@
 package com.example.salario.services;
 
-import com.example.salario.domain.funcionario.Funcionario;
-import com.example.salario.controllers.data.FuncionarioDTO;
 import com.example.salario.controllers.data.FuncionarioRequestDTO;
+import com.example.salario.controllers.data.FuncionarioRequestDTOBuilder;
 import com.example.salario.controllers.data.FuncionarioResponseDTO;
+import com.example.salario.domain.funcionario.Funcionario;
 import com.example.salario.repositories.FuncionarioRepository;
 import com.example.salario.services.impl.FuncionarioServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,12 +12,14 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class FuncionarioServiceTest {
@@ -25,7 +27,7 @@ public class FuncionarioServiceTest {
     @Mock
     private FuncionarioRepository repositoryMock;
 
-    private FuncionarioServiceImpl funcionarioService;
+    private FuncionarioService funcionarioService;
 
     @BeforeEach
     void setup() {
@@ -49,9 +51,23 @@ public class FuncionarioServiceTest {
     }
 
     @Test
+    public void getAllFuncionarios_shouldNotReturnListOfFuncionarios() {
+        // ARRANGE
+        List<Funcionario> funcionarios = new ArrayList<>();
+
+        when(repositoryMock.findAll()).thenReturn(funcionarios);
+
+        // ACTION
+        List<FuncionarioResponseDTO> result = funcionarioService.getAllFuncionarios();
+
+        // ASSERT
+        assertEquals(0, result.size());
+    }
+
+    @Test
     public void criarFuncionario_shouldCreateFuncionario_whenCpfNotExists() {
         // ARRANGE
-        FuncionarioRequestDTO funcionario = getDefaulFuncionarioRequestDTO();
+        FuncionarioRequestDTO funcionario = new FuncionarioRequestDTOBuilder().createFuncionarioDTO();
 
         when(repositoryMock.findFuncionarioByCpf(any())).thenReturn(null);
         when(repositoryMock.save(any())).thenReturn(getDefaultFuncionario());
@@ -71,7 +87,7 @@ public class FuncionarioServiceTest {
     @Test
     void criarFuncionario_shouldNotCreateFuncionario_whenCpfExists() {
         // ARRANGE
-        FuncionarioRequestDTO funcionario = getDefaulFuncionarioRequestDTO();
+        FuncionarioRequestDTO funcionario = new FuncionarioRequestDTOBuilder().createFuncionarioDTO();
 
         when(repositoryMock.findFuncionarioByCpf(any())).thenReturn(Funcionario.fromRequestDTO(funcionario));
 
@@ -80,18 +96,45 @@ public class FuncionarioServiceTest {
         assertThrows(EntityExistsException.class, () -> funcionarioService.criarFuncionario(funcionario));
     }
 
-    private static FuncionarioRequestDTO getDefaulFuncionarioRequestDTO() {
-        FuncionarioRequestDTO funcionarioDTO = new FuncionarioRequestDTO();
-        funcionarioDTO.setNome("Tomás Miguel da Mota");
-        funcionarioDTO.setCpf("43618207328");
-        funcionarioDTO.setDataNascimento(LocalDate.parse("1972-05-08"));
-        funcionarioDTO.setEndereco("Rua Sorocaba");
-        funcionarioDTO.setSalario(1080.0);
-        return funcionarioDTO;
+    @Test
+    void getFuncionarioByCpf_shouldReturnFuncionario() {
+        // ARRANGE
+        Funcionario funcionario = getDefaultFuncionario();
+
+        when(repositoryMock.findFuncionarioByCpf(any())).thenReturn(funcionario);
+        // ACTION
+        FuncionarioResponseDTO result = funcionarioService.getFuncionarioByCpf(funcionario.getCpf());
+
+        // ASSERT
+        assertNotNull(result);
+        assertEquals(Funcionario.fromResponseDTO(result), funcionario);
+    }
+
+    @Test
+    void getFuncionarioByCpf_shouldNotReturnFuncionario() {
+        // ARRANGE
+        when(repositoryMock.findFuncionarioByCpf(any())).thenReturn(null);
+        // ACTION
+        // ASSERT
+        assertThrows(EntityNotFoundException.class, () -> funcionarioService.getFuncionarioByCpf(any()));
+    }
+
+    @Test
+    void updateFuncionario_shouldReturnFuncionario() {
+        // ARRANGE
+        FuncionarioResponseDTO funcionarioResponseDTO = new FuncionarioResponseDTO(getDefaultFuncionario());
+        when(repositoryMock.save(any())).thenReturn(getDefaultFuncionario());
+
+        // ACTION
+        FuncionarioResponseDTO result = funcionarioService.updateFuncionario(funcionarioResponseDTO);
+
+        // ASSERT
+        assertNotNull(result);
+        verify(repositoryMock).save(any());
     }
 
     private Funcionario getDefaultFuncionario() {
-        FuncionarioDTO funcionarioDTO = new FuncionarioResponseDTO();
+        FuncionarioResponseDTO funcionarioDTO = new FuncionarioResponseDTO();
         funcionarioDTO.setId(3L);
         funcionarioDTO.setNome("Tomás Miguel da Mota");
         funcionarioDTO.setCpf("43618207328");

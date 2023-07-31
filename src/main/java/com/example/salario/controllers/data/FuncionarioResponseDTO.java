@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class FuncionarioResponseDTO extends FuncionarioDTO {
+    private Long id;
     public FuncionarioResponseDTO(Funcionario funcionario) {
         this.id = funcionario.getId();
         this.nome = funcionario.getNome();

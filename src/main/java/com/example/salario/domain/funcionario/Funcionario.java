@@ -1,6 +1,8 @@
 package com.example.salario.domain.funcionario;
 
 import com.example.salario.controllers.data.FuncionarioDTO;
+import com.example.salario.controllers.data.FuncionarioRequestDTO;
+import com.example.salario.controllers.data.FuncionarioResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -25,11 +27,11 @@ public class Funcionario {
     private String endereco;
     private double salario;
 
-    public static Funcionario fromRequestDTO(FuncionarioDTO data) {
+    public static Funcionario fromRequestDTO(FuncionarioRequestDTO data) {
         return getFuncionario(data);
     }
 
-    public static Funcionario fromResponseDTO(FuncionarioDTO data) {
+    public static Funcionario fromResponseDTO(FuncionarioResponseDTO data) {
         Funcionario funcionario = getFuncionario(data);
         funcionario.id = data.getId();
         return funcionario;

@@ -26,7 +26,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
     public FuncionarioResponseDTO criarFuncionario(FuncionarioRequestDTO data) {
 
-        FuncionarioResponseDTO funcionario = getFuncionarioByCpf(data.getCpf());
+        Funcionario funcionario = repository.findFuncionarioByCpf(data.getCpf());
         if (funcionario != null) {
            throw new EntityExistsException();
         }
@@ -42,7 +42,9 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     }
 
     public FuncionarioResponseDTO updateFuncionario(FuncionarioResponseDTO funcionario) {
-        return new FuncionarioResponseDTO(repository.save(Funcionario.fromResponseDTO(funcionario)));
+        Funcionario funcionarioEntity = Funcionario.fromResponseDTO(funcionario);
+        Funcionario savedFuncionario = repository.save(funcionarioEntity);
+        return new FuncionarioResponseDTO(savedFuncionario);
     }
 
 }
